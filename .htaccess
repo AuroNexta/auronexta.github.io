@@ -1,0 +1,31 @@
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 400 /404.html
+ErrorDocument 401 /404.html
+ErrorDocument 403 /404.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /error.html
+ErrorDocument 502 /error.html
+ErrorDocument 503 /maintenance.html
+RewriteEngine On
+RewriteBase /
+# RewriteCond %{REMOTE_ADDR} !=127.0.0.1
+# RewriteCond %{REQUEST_URI} !/maintenance\.html$ [NC]
+# RewriteRule ^ /maintenance.html [R=302,L]
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteRule ^mail/send\.php$ - [F,L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^projects/?$ projects.html [L]
+RewriteRule ^resume/?$   resume.html   [L]
+RewriteRule ^ /404.html [L]
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
