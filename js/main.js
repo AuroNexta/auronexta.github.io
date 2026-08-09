@@ -199,11 +199,14 @@ var LOGO_IMG = 'AuroNexta_new_logo.png';
 var HEADER_HTML =
   '<header class="site-head">' +
   '<div class="announce">🤖 Agentic Chat Bot is live — automated bookings, 24/7.</div>' +
-  '<div class="head-bar">' +
-  '<div class="head-row">' +
-  '<a class="logo-link" href="index.html"><img src="' + LOGO_IMG + '" alt="AuroNexta" class="logo-img"></a>' +
-  '<div class="head-phones"><span>📞 +44 123456789</span><span>📞 +91 123456789</span></div>' +
-  '<button class="menu-toggle" aria-label="Menu">☰</button>' +
+  '<div class="head-card">' +
+  '<div class="head-inner">' +
+  '<div class="head-phones">' +
+  '<span>📞 +44 123456789</span>' +
+  '<a href="index.html" class="logo-link"><img src="' + LOGO_IMG + '" alt="AuroNexta" class="logo-img"></a>' +
+  '<span>📞 +91 123456789</span>' +
+  '</div>' +
+  '<div class="head-actions"><button class="menu-toggle" aria-label="Menu">☰</button></div>' +
   '</div>' +
   '<nav class="nav"></nav>' +
   '</div>' +
@@ -428,10 +431,6 @@ function initOverview(projects) {
       $('#ovImg').src = p.cover || avatarSVG(initials(p.title), colorFor(p.cls));
       $('#ovTitle').textContent = p.title;
       $('#ovDesc').textContent = p.desc || 'Click to view whitepaper';
-      var b = $('#ovCls');
-      b.textContent = p.cls;
-      b.style.setProperty('--c', colorFor(p.cls));
-      $('#ovDesc').style.display = '';
       prev.classList.remove('swap');
     }, 220);
     var allItems = $$('.ov-item', track);
@@ -558,7 +557,7 @@ function initTestimonials() {
   while (filled.length < needed) filled = filled.concat(data);
   filled = filled.slice(0, needed);
 
-  var R = window.innerWidth < 600 ? 360 : window.innerWidth < 900 ? 440 : 520, rot = 0;
+  var R = window.innerWidth < 600 ? 400 : window.innerWidth < 900 ? 480 : 580, rot = 0;
   wheel.innerHTML = '';
   var cards = filled.map(function (t, i) {
     var c = el('div', 't-card');
