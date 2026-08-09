@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
-   AURONEXTA main.js — v2 with interlinked orbit, clickable overview,
-   full-screen whitepaper, inline team profiles.
+   AURONEXTA main.js — v3
+   Auto read-time, full-screen whitepaper, inline team profiles,
+   full-circle testimonials, GitHub Pages ready.
 ════════════════════════════════════════════════════════════════ */
 (function () {
 "use strict";
@@ -24,6 +25,13 @@ function esc(s) {
 function cap(w) { return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(); }
 function fmtName(n) { return n.replace(/[_-]+/g, ' ').trim().split(/\s+/).map(cap).join(' '); }
 function fmtClass(n) { return n.replace(/[_-]+/g, ' + ').trim().toUpperCase(); }
+
+/* ── Auto read-time: 225 wpm standard ── */
+function readTime(text) {
+  var words = String(text).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).length;
+  var mins = Math.max(1, Math.ceil(words / 225));
+  return mins + 'min';
+}
 
 function colorFor(cls) {
   var k = Object.keys(CFG.classColors);
@@ -100,6 +108,10 @@ function ghJson(u) {
     .then(function (r) { if (!r.ok) throw new Error('GH ' + r.status); return r.json(); });
 }
 
+/* ── GitHub Projects Loader ──
+   Path: projects/CLASS_NAME/Project_Name/
+   Files: whitepaper.md (required), whitepaper_banner.png, whitepaper_poster.png
+*/
 function loadProjects() {
   if (!ghEnabled()) return Promise.resolve(hydrateDemoProjects());
   return ghJson(ghApi(CFG.github.projectsPath)).then(function (classes) {
@@ -108,12 +120,13 @@ function loadProjects() {
       return ghJson(ghApi(CFG.github.projectsPath + '/' + c.name)).then(function (items) {
         return Promise.all(items.filter(function (d) { return d.type === 'dir'; }).map(function (p) {
           return ghJson(ghApi(p.path)).then(function (files) {
-            var img = null, md = null;
+            var poster = null, banner = null, md = null;
             files.forEach(function (f) {
-              if (/\.(png|jpe?g|svg|webp|gif)$/i.test(f.name)) img = f.download_url;
+              if (/^whitepaper_poster\.png$/i.test(f.name)) poster = f.download_url;
+              else if (/^whitepaper_banner\.png$/i.test(f.name)) banner = f.download_url;
               if (/^whitepaper\.md$/i.test(f.name)) md = f.download_url;
             });
-            return { title: fmtName(p.name), cls: fmtClass(c.name), cover: img, mdUrl: md, slug: p.path };
+            return { title: fmtName(p.name), cls: fmtClass(c.name), cover: banner || poster, mdUrl: md, slug: p.path };
           });
         }));
       });
@@ -135,25 +148,52 @@ function hydrateDemoProjects() {
   });
 }
 
+/* ── GitHub Team / Profile Loader ──
+   Path: web/profiles/
+   Files:
+     01_FirstName_LastName_Designation.png      ← photo (required)
+     01_FirstName_LastName_Designation_profile.md ← bio (optional)
+   Naming: NN_Order_FirstName_LastName_Designation
+   Underscore = space, NN = display sort order
+*/
 function parseMember(base) {
-  var parts = base.split(/[_\-\s]+/).filter(Boolean);
-  var first = parts[0] || '', last = '', desig = '';
-  if (parts.length === 2) { desig = parts[1]; }
-  else if (parts.length >= 3) { last = parts[1]; desig = parts.slice(2).join(' '); }
-  var name = cap(first) + (last ? (last.length === 1 ? ' ' + last.toUpperCase() + '.' : ' ' + cap(last)) : '');
+  // Strip leading order number (01_, 02_, etc.)
+  var cleaned = base.replace(/^\d+[_\s]/, '');
+  var parts = cleaned.split(/[_\-]+/).filter(Boolean);
+  if (!parts.length) return { name: fmtName(base), desig: 'Team Member' };
+  // Last part(s) = designation, first part = firstName
+  // If 2 parts: "John_PM" → John PM
+  // If 3+ parts: "John_Doe_Frontend_Dev" → John Doe, Frontend Dev
+  var first = parts[0];
+  var last = parts.length >= 3 ? parts[1] : '';
+  var desig = parts.length >= 3 ? parts.slice(2).join(' ') : (parts[1] || 'Team Member');
+  var name = cap(first);
+  if (last) name += ' ' + (last.length <= 2 ? last.toUpperCase() + '.' : cap(last));
   return { name: name, desig: desig.replace(/\b\w/g, function (m) { return m.toUpperCase(); }) };
 }
 
 function loadTeam() {
   if (!ghEnabled()) return Promise.resolve(hydrateDemoTeam());
   return ghJson(ghApi(CFG.github.profilePath)).then(function (files) {
-    var imgs = files.filter(function (f) { return /\.(png|jpe?g|webp)$/i.test(f.name); });
+    // Find PNG images matching NN_Name_Designation.png
+    var imgs = files.filter(function (f) {
+      return /\d+_.+\.png$/i.test(f.name);
+    });
     var members = imgs.map(function (f) {
       var base = f.name.replace(/\.[^.]+$/, '');
+      // Find matching _profile.md
       var md = null;
-      files.forEach(function (m) { if (m.name === base + '.md') md = m.download_url; });
+      files.forEach(function (m) {
+        if (m.name === base + '_profile.md') md = m.download_url;
+      });
       var info = parseMember(base);
       return { base: base, name: info.name, desig: info.desig, photo: f.download_url, mdUrl: md, bg: colorFor(info.desig || base) };
+    });
+    // Sort by the leading order number
+    members.sort(function (a, b) {
+      var nA = parseInt(a.base.match(/^\d+/)) || 0;
+      var nB = parseInt(b.base.match(/^\d+/)) || 0;
+      return nA - nB;
     });
     return members.length ? members : hydrateDemoTeam();
   }).catch(function (e) {
@@ -177,10 +217,11 @@ function fetchMd(item) {
   return Promise.resolve('# ' + esc(item.title || item.name) + '\n\nWhitepaper coming soon.');
 }
 
-/* ---------- shared header / footer ---------- */
+/* ---------- Logo ---------- */
 var LOGO_IMG = 'AuroNexta_new_logo.png';
 var LOGO_HTML = '<a href="index.html" class="logo-link"><img src="' + LOGO_IMG + '" alt="AuroNexta" class="logo-img"></a>';
 
+/* ---------- Header / Footer ---------- */
 var HEADER_HTML =
   '<div class="head-card">' +
   '<div class="announce">🤖 Agentic Chat Bot is live — automated bookings, 24/7.</div>' +
@@ -240,35 +281,21 @@ function autoTimer(region, ms, fn) {
 
 /* ═══════════════════════════════════════════════════════════════
    ORBIT ENGINE v2 — INTERLINKED: icons transfer between hubs
-   when they enter overlap regions between adjacent orbits.
    ═══════════════════════════════════════════════════════════════ */
 function initOrbit() {
   var stage = $('#orbitStage');
   if (!stage) return;
 
   var allHubs = ['web', 'dev', 'ai'];
-  var hubOrder = { web: 0, dev: 1, ai: 2 };
   var nextHub = { web: 'dev', dev: 'ai', ai: 'web' };
 
-  // Icons with cross-hub capability
   var icons = CFG.orbit.icons.map(function (c, i) {
     var e = el('div', 'o-icon', c.icon);
     e.style.background = c.bg;
     stage.appendChild(e);
-    return {
-      cfg: c,
-      el: e,
-      hub: c.hub,                          // current hub
-      angle: c.phase,
-      rOff: 0, rTarget: 0,
-      x: 0, y: 0, i: i,
-      transferTimer: 0,                     // time spent in overlap
-      transferThreshold: 2.5,               // seconds before transfer
-      transitioning: false
-    };
+    return { cfg: c, el: e, hub: c.hub, angle: c.phase, rOff: 0, rTarget: 0, x: 0, y: 0, i: i, transferTimer: 0, transferThreshold: 2.5, transitioning: false };
   });
 
-  // Dashed decorative rings (2 per hub)
   allHubs.forEach(function (h) {
     for (var r = 0; r < 2; r++) {
       var ring = el('div', 'o-ring');
@@ -286,18 +313,16 @@ function initOrbit() {
     scale = Math.max(.5, Math.min(1, stage.clientWidth / 1000));
     centers = {};
     Object.keys(hubs).forEach(function (k) {
-      var r = hubs[k].getBoundingClientRect(), s = stage.getBoundingClientRect();
-      centers[k] = { x: r.left - s.left + r.width / 2, y: r.top - s.top + r.height / 2 };
+      var rc = hubs[k].getBoundingClientRect(), s = stage.getBoundingClientRect();
+      centers[k] = { x: rc.left - s.left + rc.width / 2, y: rc.top - s.top + rc.height / 2 };
     });
     $$('.o-ring', stage).forEach(function (ring) {
       var c = centers[ring.dataset.hub];
       if (!c) return;
       var base = (ring.dataset.r === '0' ? 170 : 210);
       var w = base * 2 * scale, ht = base * 1.18 * scale;
-      ring.style.width = w + 'px';
-      ring.style.height = ht + 'px';
-      ring.style.left = (c.x - w / 2) + 'px';
-      ring.style.top = (c.y - ht / 2) + 'px';
+      ring.style.width = w + 'px'; ring.style.height = ht + 'px';
+      ring.style.left = (c.x - w / 2) + 'px'; ring.style.top = (c.y - ht / 2) + 'px';
       var tiltDeg = ring.dataset.hub === 'web' ? -18 : ring.dataset.hub === 'dev' ? 8 : 16;
       ring.style.transform = 'rotate(' + tiltDeg + 'deg)';
     });
@@ -309,16 +334,13 @@ function initOrbit() {
   var perHub = {};
   icons.forEach(function (ic) { perHub[ic.hub] = (perHub[ic.hub] || 0) + 1; });
 
-  // Overlap detection: icon is in overlap zone when distance to adjacent hub center
-  // is less than the overlap radius (sum of their ellipse minor axes / 2)
   function isInOverlap(ic, otherHubKey) {
     var myCenter = centers[ic.hub];
     var otherCenter = centers[otherHubKey];
     if (!myCenter || !otherCenter) return false;
     var dx = ic.x - otherCenter.x, dy = ic.y - otherCenter.y;
     var dist = Math.sqrt(dx * dx + dy * dy);
-    var overlapRadius = ((ic.cfg.b + 60) * scale); // ~overlap zone
-    return dist < overlapRadius;
+    return dist < ((ic.cfg.b + 60) * scale);
   }
 
   var last = null;
@@ -329,42 +351,27 @@ function initOrbit() {
     var minD = 46 * scale;
 
     icons.forEach(function (ic) {
-      var hubCfg = CFG.orbit.hubs[ic.hub];
-      var tilt = ic.cfg.tilt;
+      var tilt = ic.hub === 'web' ? -18 : ic.hub === 'dev' ? 8 : 16;
       var aVal = ic.cfg.a, bVal = ic.cfg.b;
-      // Use current hub's tilt
-      tilt = ic.hub === 'web' ? -18 : ic.hub === 'dev' ? 8 : 16;
-
       var slow = 1 / Math.sqrt(perHub[ic.hub] || 1);
       ic.angle += ic.cfg.speed * slow * dt * (1 + ic.rOff / 220);
-
-      var a = (aVal + ic.rOff) * scale;
-      var b = (bVal + ic.rOff) * scale;
+      var a = (aVal + ic.rOff) * scale, b = (bVal + ic.rOff) * scale;
       var t = tilt * Math.PI / 180;
       var c = centers[ic.hub];
       if (!c) return;
-
       var ex = a * Math.cos(ic.angle), ey = b * Math.sin(ic.angle);
       ic.x = c.x + ex * Math.cos(t) - ey * Math.sin(t);
       ic.y = c.y + ex * Math.sin(t) + ey * Math.cos(t);
 
-      // Overlap transfer logic
       var targetHub = nextHub[ic.hub];
       if (isInOverlap(ic, targetHub)) {
         ic.transferTimer += dt;
-        // Visual indicator: pulse the icon
         var pulse = 1 + 0.15 * Math.sin(ic.transferTimer * 6);
         ic.el.style.transform = 'translate3d(' + (ic.x - 20) + 'px,' + (ic.y - 20) + 'px,0) scale(' + pulse + ')';
-
         if (ic.transferTimer >= ic.transferThreshold && !ic.transitioning) {
-          // TRANSFER: switch hub
-          ic.transitioning = true;
-          ic.hub = targetHub;
+          ic.transitioning = true; ic.hub = targetHub;
           perHub[ic.hub] = (perHub[ic.hub] || 0) + 1;
-          // Re-set angle for new hub to avoid jump
-          ic.angle = ic.angle; // keep momentum
           ic.transferTimer = 0;
-          ic.el.style.background = CFG.orbit.icons[ic.i].bg; // restore bg
           setTimeout(function () { ic.transitioning = false; }, 800);
         }
       } else {
@@ -372,17 +379,13 @@ function initOrbit() {
       }
     });
 
-    // Collision avoidance within same hub
     for (var i = 0; i < icons.length; i++) {
       for (var j = i + 1; j < icons.length; j++) {
         if (icons[i].hub !== icons[j].hub) continue;
         var A = icons[i], B = icons[j];
         var dx = A.x - B.x, dy = A.y - B.y;
         var d = Math.sqrt(dx * dx + dy * dy);
-        if (d < minD) {
-          A.rTarget = Math.min(42, A.rTarget + 26 * dt * 10);
-          B.rTarget = Math.max(-26, B.rTarget - 26 * dt * 10);
-        }
+        if (d < minD) { A.rTarget = Math.min(42, A.rTarget + 26 * dt * 10); B.rTarget = Math.max(-26, B.rTarget - 26 * dt * 10); }
       }
     }
 
@@ -403,9 +406,7 @@ function initOrbit() {
       if (en[0].isIntersecting && !running) { running = true; last = null; requestAnimationFrame(tick); }
       else if (!en[0].isIntersecting) running = false;
     }, { threshold: .05 }).observe(stage);
-  } else {
-    requestAnimationFrame(tick);
-  }
+  } else { requestAnimationFrame(tick); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -423,7 +424,6 @@ function initOverview(projects) {
     d.innerHTML = '<div class="th"><img alt="" src="' + (p.cover || avatarSVG(initials(p.title), colorFor(p.cls))) + '"></div>' +
       '<div><b>' + esc(p.title) + '</b><small>' + esc(p.cls) + '</small></div>';
     d.dataset.i = i % items.length;
-    // Click → scroll to matching project card
     d.addEventListener('click', function () {
       var idx = parseInt(d.dataset.i);
       var projCards = $$('.p-card');
@@ -432,12 +432,11 @@ function initOverview(projects) {
         if (cardTitle && cardTitle.textContent.indexOf(p.title) > -1) {
           projCards[c].scrollIntoView({ behavior: 'smooth', block: 'center' });
           projCards[c].style.transition = 'box-shadow .3s';
-          projCards[c].style.boxShadow = '0 0 0 3px ' + colorFor(p.cls) + ', ' + projCards[c].style.boxShadow;
+          projCards[c].style.boxShadow = '0 0 0 3px ' + colorFor(p.cls);
           setTimeout(function (card) { card.style.boxShadow = ''; }, 2500, projCards[c]);
           return;
         }
       }
-      // If not on this page, go to projects section
       var projectsSec = $('#projects');
       if (projectsSec) projectsSec.scrollIntoView({ behavior: 'smooth' });
     });
@@ -473,29 +472,17 @@ function initOverview(projects) {
       b.style.setProperty('--c', colorFor(p.cls));
       prev.classList.remove('swap');
     }, 250);
-    $$('.ov-item', track).forEach(function (n, k) {
-      n.classList.toggle('active', k === (i % items.length));
-    });
+    $$('.ov-item', track).forEach(function (n, k) { n.classList.toggle('active', k === (i % items.length)); });
   }
 
-  function step() {
-    idx++;
-    setY(true);
-    if (idx >= items.length) {
-      setTimeout(function () { idx = 0; setY(false); }, 640);
-    }
-    show(idx);
-  }
-
-  show(0);
-  setY(false);
+  function step() { idx++; setY(true); if (idx >= items.length) { setTimeout(function () { idx = 0; setY(false); }, 640); } show(idx); }
+  show(0); setY(false);
   window.addEventListener('resize', function () { setListH(); setY(false); });
   autoTimer(region, 3500, step);
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   PROJECTS GRID + FULL-SCREEN whitepaper modal (v2)
-   Badge left-aligned, professional layout
+   PROJECTS GRID — auto read-time, full-screen whitepaper modal
    ═══════════════════════════════════════════════════════════════ */
 function renderProjects(projects, limit) {
   var grid = $('#projGrid');
@@ -506,9 +493,10 @@ function renderProjects(projects, limit) {
     var c = el('article', 'p-card');
     c.dataset.title = p.title;
     c.style.animationDelay = (i * .07) + 's';
+    // Read-time placeholder — computed when whitepaper loads
     c.innerHTML = '<div class="p-media"><img loading="lazy" alt="' + esc(p.title) + '" src="' + (p.cover || avatarSVG(initials(p.title), colorFor(p.cls))) + '"></div>' +
       '<span class="p-badge" style="--c:' + colorFor(p.cls) + '">' + esc(p.cls) + '</span>' +
-      '<div class="p-bar"><strong>' + esc(p.title) + '</strong><span class="rt">5min ⛶</span></div>';
+      '<div class="p-bar"><strong>' + esc(p.title) + '</strong><span class="rt">— ⛶</span></div>';
     c.addEventListener('click', function () { openWhitepaper(p); });
     grid.appendChild(c);
   });
@@ -516,26 +504,43 @@ function renderProjects(projects, limit) {
   if (vm) vm.classList.toggle('hidden', !limit || projects.length <= limit);
 }
 
-/* Full-screen whitepaper modal */
+/* ── Cache for computed read-times ── */
+var readTimeCache = {};
+
+/* FULL-SCREEN whitepaper modal */
 function openWhitepaper(p) {
   var m = $('#wpModal');
   if (!m) return;
-  // Badge LEFT-aligned (before title), close button far RIGHT
   $('#wpTitle').textContent = p.title;
   var b = $('#wpCls');
   b.textContent = p.cls;
   b.style.setProperty('--c', colorFor(p.cls));
-  b.classList.add('wp-badge-left');
-  $('#wpMeta').textContent = 'AuroNexta Whitepaper · class: ' + p.cls + ' · estimated read: 5 min';
   $('#wpBody').innerHTML = '<div class="wp-loading"><div class="wp-spinner"></div><p>Loading whitepaper…</p></div>';
+  // Placeholder meta — updated after fetch
+  $('#wpMeta').innerHTML = 'AuroNexta Whitepaper · class: ' + esc(p.cls) + ' · <span class="read-time">computing…</span>';
   openModal(m);
   m.classList.add('wp-fullscreen');
-  fetchMd(p).then(function (md) { $('#wpBody').innerHTML = mdToHtml(md); });
+  fetchMd(p).then(function (md) {
+    var html = mdToHtml(md);
+    $('#wpBody').innerHTML = html;
+    // AUTO read-time from content
+    var rt = readTime(md);
+    if (!readTimeCache[p.slug]) readTimeCache[p.slug] = rt;
+    $('#wpMeta').innerHTML = 'AuroNexta Whitepaper · class: ' + esc(p.cls) + ' · <span class="read-time">' + rt + ' read</span>';
+    // Update the card's rt too
+    var cards = $$('.p-card');
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].dataset.title === p.title) {
+        var rtSpan = cards[i].querySelector('.rt');
+        if (rtSpan) rtSpan.textContent = rt + ' ⛶';
+        break;
+      }
+    }
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════════
    TEAM marquee + INLINE full-profile modal (v2)
-   No separate page — shows full resume inline with LinkedIn
    ═══════════════════════════════════════════════════════════════ */
 function renderTeam(team) {
   var track = $('#teamTrack');
@@ -564,7 +569,7 @@ function renderTeam(team) {
   }
 }
 
-/* Inline full-profile modal — replaces mini modal + resume page */
+/* Inline full-profile modal */
 function openMember(m) {
   var modal = $('#tmModal');
   if (!modal) return;
@@ -574,44 +579,42 @@ function openMember(m) {
   $('#tmName').textContent = m.name;
   $('#tmDesig').textContent = m.desig;
   $('#tmBody').innerHTML = '<div class="wp-loading"><div class="wp-spinner"></div><p>Loading profile…</p></div>';
-  // LinkedIn button
+
   var linkedinEl = $('#tmLinkedin');
   if (linkedinEl) {
     linkedinEl.href = linkedinUrl(m.base);
     linkedinEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> View LinkedIn Profile';
   }
-  // Remove "View Full Resume" button since we show everything inline
-  var resumeLink = $('#tmResume');
-  if (resumeLink) resumeLink.classList.add('hidden');
 
   openModal(modal);
   modal.classList.add('tm-fullscreen');
   fetchMd(m).then(function (md) { $('#tmBody').innerHTML = mdToHtml(md); });
 }
 
-/* Build LinkedIn URL from base name */
 function linkedinUrl(base) {
   var info = parseMember(base);
   var slug = info.name.toLowerCase().replace(/\s+/g, '-');
   return 'https://www.linkedin.com/in/' + slug + '-' + info.desig.toLowerCase().replace(/\s+/g, '-') + '-auronexta';
 }
 
-/* ---------- TESTIMONIALS wheel ---------- */
+/* ═══════════════════════════════════════════════════════════════
+   TESTIMONIALS wheel — FULL 360° circle, proper spacing
+   ═══════════════════════════════════════════════════════════════ */
 function initTestimonials() {
   var region = $('.t-region');
   if (!region) return;
   var wheel = $('#tWheel');
   var data = CFG.demoTestimonials;
   if (!data || !data.length) return;
-  // Fill full 360° circle — repeat testimonials until we cover 360°
-  var spacing = 24; // degrees between cards
-  var needed = Math.ceil(360 / spacing); // 15 cards for full circle
+
+  // Calculate cards needed for full 360° circle
+  var spacing = 24; // degrees between each card
+  var needed = Math.ceil(360 / spacing); // 15 cards
   var filled = [];
-  while (filled.length < needed) {
-    filled = filled.concat(data);
-  }
+  while (filled.length < needed) filled = filled.concat(data);
   filled = filled.slice(0, needed);
-  var N = filled.length, R = window.innerWidth < 600 ? 380 : 460, rot = 0;
+
+  var N = filled.length, R = window.innerWidth < 600 ? 380 : 480, rot = 0;
   wheel.innerHTML = '';
   var cards = filled.map(function (t, i) {
     var c = el('div', 't-card');
@@ -620,6 +623,7 @@ function initTestimonials() {
     wheel.appendChild(c);
     return c;
   });
+
   function norm(a) { a = ((a % 360) + 540) % 360 - 180; return a; }
   function layout() {
     cards.forEach(function (c, i) {
@@ -629,7 +633,7 @@ function initTestimonials() {
     });
   }
   layout();
-  window.addEventListener('resize', function () { R = window.innerWidth < 600 ? 380 : 460; layout(); });
+  window.addEventListener('resize', function () { R = window.innerWidth < 600 ? 380 : 480; layout(); });
   autoTimer(region, 5000, function () { rot -= spacing; layout(); });
 }
 
@@ -676,8 +680,7 @@ function openFab(x, y) {
   var r = CFG.fab.radius + 60;
   x = Math.max(r, Math.min(window.innerWidth - r, x));
   y = Math.max(r, Math.min(window.innerHeight - r, y));
-  fabEl.style.left = x + 'px';
-  fabEl.style.top = y + 'px';
+  fabEl.style.left = x + 'px'; fabEl.style.top = y + 'px';
   fabEl.hidden = false;
   requestAnimationFrame(function () { fabEl.classList.add('open'); });
 }
@@ -689,9 +692,7 @@ function closeFab() {
 document.addEventListener('contextmenu', function (e) {
   if (window.getSelection && window.getSelection().toString()) return;
   if (e.target.closest('a,button,input,textarea,select,label,form,.modal,.fab,img,video')) return;
-  e.preventDefault();
-  buildFab();
-  openFab(e.clientX, e.clientY);
+  e.preventDefault(); buildFab(); openFab(e.clientX, e.clientY);
 });
 document.addEventListener('click', function (e) {
   if (!fabEl.hidden && !e.target.closest('.fab')) closeFab();
@@ -723,14 +724,9 @@ function initContact() {
 /* ---------- scroll reveal ---------- */
 function initReveal() {
   $$('.card, .about-card, .sec-pill').forEach(function (e) { e.classList.add('reveal'); });
-  if (!('IntersectionObserver' in window)) {
-    $$('.reveal').forEach(function (e) { e.classList.add('in'); });
-    return;
-  }
+  if (!('IntersectionObserver' in window)) { $$('.reveal').forEach(function (e) { e.classList.add('in'); }); return; }
   var io = new IntersectionObserver(function (en) {
-    en.forEach(function (x) {
-      if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); }
-    });
+    en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
   }, { threshold: .1 });
   $$('.reveal').forEach(function (e) { io.observe(e); });
 }
@@ -740,7 +736,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var page = document.body.dataset.page;
   $$('[data-include="header"]').forEach(function (n) { n.outerHTML = buildHeader(); });
   $$('[data-include="footer"]').forEach(function (n) { n.outerHTML = FOOTER_HTML; });
-  // Menu toggle: show/hide nav on mobile
+
+  // Menu toggle
   var toggle = $('.menu-toggle');
   if (toggle) {
     toggle.addEventListener('click', function () {
@@ -748,6 +745,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (nav) nav.classList.toggle('nav-open');
     });
   }
+
   initReveal();
   if (page === 'index') { initOrbit(); initTestimonials(); initContact(); }
   loadProjects().then(function (projects) {

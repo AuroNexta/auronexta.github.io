@@ -1,0 +1,6 @@
+# GitHub Pages Jekyll config
+title: AuroNexta
+description: Agentic automation, AI/ML, robotics, drones, software & web engineering.
+theme: null
+exclude: ['README.md']
+plugins: []
