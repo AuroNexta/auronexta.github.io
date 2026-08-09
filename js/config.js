@@ -75,15 +75,43 @@ const SITE_JSON = {
     { "title": "Edge Vision",  "cls": "AI_ML",    "desc": "On-device visual defect detection.", "md": "# Edge Vision\n\nOn-device visual quality control for manufacturing lines.\n\n## Highlights\n- INT8 quantized CNN (MobileNetV3)\n- 40 FPS on edge TPU\n- <2% false positive rate\n\n## Pipeline\n1. Camera captures at 60fps\n2. TFLite model runs on Coral TPU\n3. Pass/fail signal to PLC\n4. Reject bin actuated automatically\n\n## Training\n- 50K annotated defect images\n- Synthetic augmentation (Copy-Paste)\n- Semi-supervised pseudo-labeling\n\n## Deployment\n- NVIDIA Jetson Xavier NX\n- Custom metal enclosure\n- GigE camera + strobe lighting\n\n---\n*© 2026 AuroNexta*" }
   ],
 
-  "demoTeam": [
-    { "base": "01_Hari_Krishnan_Co_Founder",  "bg": "#c96a00", "md": "# Hari Krishnan\n**Co-Founder**\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras vehicula, mi eget laoreet venenatis, eros lectus auctor nibh, sit amet faucibus magna eros quis magna.\n\n## About\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n\n## Experience\n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." },
-    { "base": "02_Vamsi_Madhav_Co_Founder",  "bg": "#c4009c", "md": "# Vamsi Madhav\n**Co-Founder**\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n## About\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.\n\n## Experience\n\nInteger in sapien. Sed adipiscing ornare eget. Mauris lacinia sollicitudin quam. Maecenas sollicitudin, nulla ut elementum imperdiet, quam sem venenatis leo, vitae tempus quam tortor in mauris." },
-    { "base": "03_Vishnavi_D_Graphic_Designer", "bg": "#7a00d6", "md": "# Vishnavi D\n**Graphic Designer**\n\nPraesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.\n\n## About\n\nPhasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec telling. Curabitur dignissim. Proin facilisis.\n\n## Experience\n\nIn enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus." },
-    { "base": "04_Aakash_C_Developer", "bg": "#0063d1", "md": "# Aakash C\n**Developer**\n\nFusce mauris. Vestibulum luctus nibh at lectus. Sed bibendum, nulla a faucibus semper, leo odio luctus velit, ac ornare felis magna in sapien. Etiam ut diam.\n\n## About\n\nSed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc. Duis malesuada justo vel diam.\n\n## Experience\n\nAliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum." },
-    { "base": "05_Divya_B_Project_Manager", "bg": "#0084c9", "md": "# Divya B\n**Project Manager**\n\nNulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.\n\n## About\n\nEtiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel.\n\n## Experience\n\nInteger ac leo. Pellentesque ultrices mattis odio. Praesent blandit lacinia augue. Fusce vulputate aliquam metus. Vestibulum commodo viverra neque." },
-    { "base": "06_Vinod_Robotics", "bg": "#009a2d", "md": "# Vinod\n**Robotics**\n\nMaecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.\n\n## About\n\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut aliquet purus sit amet luctus venenatis.\n\n## Experience\n\nCras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia." },
-    { "base": "07_Yogi_AR_Drone", "bg": "#00c395", "md": "# Yogi\n**AR & Drone**\n\nDonec sed odio dui. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit.\n\n## About\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.\n\n## Experience\n\nCras justo odio, dapibus ut facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus." }
-  ],
+  "demoTeam": [[
+    {
+        "base": "01_Hari_Krishnan_Co_Founder",
+        "bg": "#c96a00",
+        "md": "# Hari Krishnan\n**Co-Founder**\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras vehicula, mi eget laoreet venenatis, eros lectus auctor nibh, sit amet faucibus magna eros quis magna.\n\n## Education\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n\n## About\n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    },
+    {
+        "base": "02_Vamsi_Madhav_Co_Founder",
+        "bg": "#c4009c",
+        "md": "# Vamsi Madhav\n**Co-Founder**\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n## Education\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.\n\n## About\n\nInteger in sapien. Sed adipiscing ornare eget. Mauris lacinia sollicitudin quam. Maecenas sollicitudin, nulla ut elementum imperdiet, quam sem venenatis leo, vitae tempus quam tortor in mauris."
+    },
+    {
+        "base": "03_Vishnavi_D_Graphic_Designer",
+        "bg": "#7a00d6",
+        "md": "# Vishnavi D\n**Graphic Designer**\n\nPraesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.\n\n## Education\n\nPhasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec telling. Curabitur dignissim. Proin facilisis.\n\n## About\n\nIn enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus."
+    },
+    {
+        "base": "04_Aakash_C_Developer",
+        "bg": "#0063d1",
+        "md": "# Aakash C\n**Developer**\n\nFusce mauris. Vestibulum luctus nibh at lectus. Sed bibendum, nulla a faucibus semper, leo odio luctus velit, ac ornare felis magna in sapien. Etiam ut diam.\n\n## Education\n\nSed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc. Duis malesuada justo vel diam.\n\n## About\n\nAliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum."
+    },
+    {
+        "base": "05_Divya_B_Project_Manager",
+        "bg": "#0084c9",
+        "md": "# Divya B\n**Project Manager**\n\nNulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.\n\n## Education\n\nEtiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel.\n\n## About\n\nInteger ac leo. Pellentesque ultrices mattis odio. Praesent blandit lacinia augue. Fusce vulputate aliquam metus. Vestibulum commodo viverra neque."
+    },
+    {
+        "base": "06_Vinod_Robotics",
+        "bg": "#009a2d",
+        "md": "# Vinod\n**Robotics**\n\nMaecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.\n\n## Education\n\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut aliquet purus sit amet luctus venenatis.\n\n## About\n\nCras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia."
+    },
+    {
+        "base": "07_Yogi_AR_Drone",
+        "bg": "#00c395",
+        "md": "# Yogi\n**AR & Drone**\n\nDonec sed odio dui. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit.\n\n## Education\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.\n\n## About\n\nCras justo odio, dapibus ut facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus."
+    }
+]],
 
   "demoTestimonials": [
     { "name": "Oliver Thompson", "msg": "The booking agent paid for itself in six weeks. Flawless delivery from the AuroNexta team.", "bg": "#0063d1" },
