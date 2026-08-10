@@ -1,9 +1,7 @@
-/* ════════════════════════════════════════════════════════════════════
-   AURONEXTA main.js — Professional Build
-   Auto read-time (10–18 min range), full-screen whitepaper modal,
-   GitHub API loader, overview preview (no scroll), team profiles,
-   testimonials wheel, FAB radial menu, contact form.
-══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   AURONEXTA — GOLD VERSION TWO
+   main.js
+   ═══════════════════════════════════════════════════════════════════════ */
 (function () {
 "use strict";
 
@@ -27,7 +25,7 @@ function cap(w) { return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(); }
 function fmtName(n) { return n.replace(/[_-]+/g, ' ').trim().split(/\s+/).map(cap).join(' '); }
 function fmtClass(n) { return n.replace(/[_-]+/g, ' + ').trim().toUpperCase(); }
 
-/* ── Auto read-time: 225 wpm, clamped to 10–18 min range ── */
+/* ── Auto read-time ── */
 function readTime(text) {
   var words = String(text).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().split(/\s+/).length;
   var mins = Math.max(10, Math.min(18, Math.ceil(words / 225)));
@@ -109,10 +107,7 @@ function ghJson(u) {
     .then(function (r) { if (!r.ok) throw new Error('GH ' + r.status); return r.json(); });
 }
 
-/* ── GitHub Projects Loader ──
-   projects/CLASS_NAME/Project_Name/
-     whitepaper.md, whitepaper_banner.png, whitepaper_poster.png
-*/
+/* ── GitHub Projects Loader ── */
 function loadProjects() {
   if (!ghEnabled()) return Promise.resolve(hydrateDemoProjects());
   return ghJson(ghApi(CFG.github.projectsPath)).then(function (classes) {
@@ -144,11 +139,7 @@ function hydrateDemoProjects() {
   });
 }
 
-/* ── GitHub Team / Profile Loader ──
-   web/profiles/
-     NN_FirstName_LastName_Designation.png
-     NN_FirstName_LastName_Designation_profile.md
-*/
+/* ── GitHub Team / Profile Loader ── */
 function parseMember(base) {
   var cleaned = base.replace(/^\d+[_\s]/, '');
   var parts = cleaned.split(/[_\-]+/).filter(Boolean);
@@ -178,7 +169,8 @@ function loadTeam() {
 }
 
 function hydrateDemoTeam() {
-  return CFG.demoTeam.map(function (m) {
+  var members = Array.isArray(CFG.demoTeam[0]) ? CFG.demoTeam.flat() : CFG.demoTeam;
+  return members.map(function (m) {
     var info = parseMember(m.base);
     return { base: m.base, name: info.name, desig: info.desig,
              photo: avatarSVG(initials(info.name), m.bg, 300, 300),
@@ -191,66 +183,6 @@ function fetchMd(item) {
   if (item.mdUrl) return fetch(item.mdUrl).then(function (r) { return r.text(); });
   return Promise.resolve('# ' + esc(item.title || item.name) + '\n\nWhitepaper coming soon.');
 }
-
-/* ══ Logo ══ */
-var LOGO_IMG = 'AuroNexta_new_logo.png';
-
-/* ══ Header / Footer ══ */
-var HEADER_HTML =
-  '<header class="site-head">' +
-  '<div class="announce">🤖 Agentic Chat Bot is live — automated bookings, 24/7.</div>' +
-  '<div class="head-card">' +
-  '<div class="head-inner">' +
-  '<div class="head-phones">' +
-  '<span>📞 +44 123456789</span>' +
-  '<a href="index.html" class="logo-link"><img src="' + LOGO_IMG + '" alt="AuroNexta" class="logo-img"></a>' +
-  '<span>📞 +91 123456789</span>' +
-  '</div>' +
-  '<div class="head-actions"><button class="menu-toggle" aria-label="Menu">☰</button></div>' +
-  '</div>' +
-  '<nav class="nav"></nav>' +
-  '</div>' +
-  '</header>';
-
-function buildHeader() {
-  return HEADER_HTML;
-}
-
-/* Inject nav links after DOM ready */
-function initNav() {
-  var nav = $('.nav');
-  if (!nav) return;
-  var links = [
-    { t: 'Home',     h: 'index.html#top' },
-    { t: 'Projects', h: 'index.html#projects' },
-    { t: 'About Us', h: 'index.html#about' },
-    { t: 'Contact',  h: 'index.html#contact' },
-    { t: 'Services', h: 'index.html#services' }
-  ];
-  links.forEach(function (l) {
-    var a = document.createElement('a');
-    a.href = l.h; a.textContent = l.t;
-    nav.appendChild(a);
-  });
-}
-
-var FOOTER_HTML =
-  '<footer class="site-foot">' +
-  '<div>' +
-  '<div class="foot-grid">' +
-  '<div class="foot-brand">' +
-  '<div class="foot-logo"><img src="' + LOGO_IMG + '" alt="AuroNexta" class="logo-img"></div>' +
-  '<p><strong>AuroNexta — United Kingdom.</strong> Registered in England &amp; Wales. Agentic automation, AI/ML engineering and full-stack software for European clients with round-the-clock support.</p>' +
-  '<p><strong>AuroNexta — India.</strong> R&amp;D hub for robotics, drones and AR. Powers our global delivery and 24-hour engineering coverage.</p>' +
-  '</div>' +
-  '<div class="foot-col"><h4>Project Works</h4><p>United Kingdom</p><p><strong>+44 123456789</strong></p></div>' +
-  '<div class="foot-col"><h4>Services</h4><p>India</p><p><strong>+91 123456789</strong></p></div>' +
-  '</div>' +
-  '<div class="foot-bar">' +
-  '<span><a href="index.html">Terms &amp; Conditions</a> · <a href="index.html">Privacy</a></span>' +
-  '<span>© 2026 AuroNexta</span>' +
-  '<span>Designed &amp; Developed by VAMSI</span>' +
-  '</div></div></footer>';
 
 /* ══ Auto timer (pause on hover/offscreen) ══ */
 function autoTimer(region, ms, fn) {
@@ -267,130 +199,156 @@ function autoTimer(region, ms, fn) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   ORBIT ENGINE — professional, responsive
+   STICKY HEADER — adds shadow on scroll
    ═══════════════════════════════════════════════════════════════ */
-function initOrbit() {
-  var stage = $('#orbitStage');
-  if (!stage) return;
-
-  var allHubs = ['web', 'dev', 'ai'];
-  var nextHub = { web: 'dev', dev: 'ai', ai: 'web' };
-  var icons = CFG.orbit.icons.map(function (c, i) {
-    var e = el('div', 'o-icon', c.icon);
-    e.style.background = c.bg;
-    stage.appendChild(e);
-    return { cfg: c, el: e, hub: c.hub, angle: c.phase, rOff: 0, rTarget: 0, x: 0, y: 0, i: i, transferTimer: 0, transferThreshold: 2.5, transitioning: false };
-  });
-
-  allHubs.forEach(function (h) {
-    for (var r = 0; r < 2; r++) {
-      var ring = el('div', 'o-ring');
-      ring.dataset.hub = h; ring.dataset.r = r;
-      stage.appendChild(ring);
-    }
-  });
-
-  var hubs = {};
-  $$('.hub', stage).forEach(function (h) { hubs[h.dataset.hub] = h; });
-  var scale = 1, centers = {};
-
-  function measure() {
-    scale = Math.max(.45, Math.min(1, stage.clientWidth / 960));
-    centers = {};
-    Object.keys(hubs).forEach(function (k) {
-      var rc = hubs[k].getBoundingClientRect(), s = stage.getBoundingClientRect();
-      centers[k] = { x: rc.left - s.left + rc.width / 2, y: rc.top - s.top + rc.height / 2 };
-    });
-    $$('.o-ring', stage).forEach(function (ring) {
-      var c = centers[ring.dataset.hub];
-      if (!c) return;
-      var base = (ring.dataset.r === '0' ? 170 : 210);
-      var w = base * 2 * scale, ht = base * 1.18 * scale;
-      ring.style.width = w + 'px'; ring.style.height = ht + 'px';
-      ring.style.left = (c.x - w / 2) + 'px'; ring.style.top = (c.y - ht / 2) + 'px';
-      var tiltDeg = ring.dataset.hub === 'web' ? -18 : ring.dataset.hub === 'dev' ? 8 : 16;
-      ring.style.transform = 'rotate(' + tiltDeg + 'deg)';
-    });
-  }
-
-  measure();
-  window.addEventListener('resize', measure);
-
-  var perHub = {};
-  icons.forEach(function (ic) { perHub[ic.hub] = (perHub[ic.hub] || 0) + 1; });
-
-  function isInOverlap(ic, otherHubKey) {
-    var myCenter = centers[ic.hub], otherCenter = centers[otherHubKey];
-    if (!myCenter || !otherCenter) return false;
-    var dx = ic.x - otherCenter.x, dy = ic.y - otherCenter.y;
-    return Math.sqrt(dx * dx + dy * dy) < ((ic.cfg.b + 60) * scale);
-  }
-
-  var last = null;
-  function tick(ts) {
-    if (last === null) last = ts;
-    var dt = Math.min(.05, (ts - last) / 1000);
-    last = ts;
-    var minD = 46 * scale;
-
-    icons.forEach(function (ic) {
-      var tilt = ic.hub === 'web' ? -18 : ic.hub === 'dev' ? 8 : 16;
-      var slow = 1 / Math.sqrt(perHub[ic.hub] || 1);
-      ic.angle += ic.cfg.speed * slow * dt * (1 + ic.rOff / 220);
-      var a = (ic.cfg.a + ic.rOff) * scale, b = (ic.cfg.b + ic.rOff) * scale;
-      var t = tilt * Math.PI / 180;
-      var c = centers[ic.hub];
-      if (!c) return;
-      var ex = a * Math.cos(ic.angle), ey = b * Math.sin(ic.angle);
-      ic.x = c.x + ex * Math.cos(t) - ey * Math.sin(t);
-      ic.y = c.y + ex * Math.sin(t) + ey * Math.cos(t);
-
-      var targetHub = nextHub[ic.hub];
-      if (isInOverlap(ic, targetHub)) {
-        ic.transferTimer += dt;
-        var pulse = 1 + .15 * Math.sin(ic.transferTimer * 6);
-        ic.el.style.transform = 'translate3d(' + (ic.x - 24) + 'px,' + (ic.y - 24) + 'px,0) scale(' + pulse + ')';
-        if (ic.transferTimer >= ic.transferThreshold && !ic.transitioning) {
-          ic.transitioning = true; ic.hub = targetHub;
-          perHub[ic.hub] = (perHub[ic.hub] || 0) + 1;
-          ic.transferTimer = 0;
-          setTimeout(function () { ic.transitioning = false; }, 800);
-        }
-      } else {
-        ic.transferTimer = Math.max(0, ic.transferTimer - dt * 2);
-      }
-    });
-
-    for (var i = 0; i < icons.length; i++) {
-      for (var j = i + 1; j < icons.length; j++) {
-        if (icons[i].hub !== icons[j].hub) continue;
-        var dx = icons[i].x - icons[j].x, dy = icons[i].y - icons[j].y;
-        var d = Math.sqrt(dx * dx + dy * dy);
-        if (d < minD) { icons[i].rTarget = Math.min(42, icons[i].rTarget + 26 * dt * 10); icons[j].rTarget = Math.max(-26, icons[j].rTarget - 26 * dt * 10); }
-      }
-    }
-
-    icons.forEach(function (ic) {
-      ic.rTarget += (0 - ic.rTarget) * .08;
-      ic.rOff += (ic.rTarget - ic.rOff) * .06;
-      if (ic.transferTimer < .3) {
-        ic.el.style.transform = 'translate3d(' + (ic.x - 24) + 'px,' + (ic.y - 24) + 'px,0)';
-      }
-    });
-    requestAnimationFrame(tick);
-  }
-
-  if ('IntersectionObserver' in window) {
-    var running = false;
-    new IntersectionObserver(function (en) {
-      if (en[0].isIntersecting && !running) { running = true; last = null; requestAnimationFrame(tick); }
-      else if (!en[0].isIntersecting) running = false;
-    }, { threshold: .05 }).observe(stage);
-  } else { requestAnimationFrame(tick); }
+function initStickyHeader() {
+  var header = $('#siteHeader');
+  if (!header) return;
+  window.addEventListener('scroll', function () {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   OVERVIEW — click shows in left preview box ONLY (no scroll)
+   MOBILE MENU
+   ═══════════════════════════════════════════════════════════════ */
+function initMobileMenu() {
+  var toggle = $('#menuToggle');
+  var nav = $('#mainNav');
+  if (!toggle || !nav) return;
+  toggle.addEventListener('click', function () {
+    toggle.classList.toggle('open');
+    nav.classList.toggle('nav-open');
+  });
+  // Close menu on nav item click
+  $$('.nav-item', nav).forEach(function (item) {
+    item.addEventListener('click', function () {
+      toggle.classList.remove('open');
+      nav.classList.remove('nav-open');
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO CAROUSEL
+   ═══════════════════════════════════════════════════════════════ */
+function initHeroCarousel() {
+  var slides = $$('.hero-slide', $('#heroCarousel'));
+  var dots = $$('.hero-dot', $('#heroCarousel'));
+  if (!slides.length) return;
+
+  var current = 0, total = slides.length, timer = null;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+    current = ((n % total) + total) % total;
+    slides[current].classList.add('active');
+    if (dots[current]) dots[current].classList.add('active');
+  }
+
+  // Dots
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () { goTo(i); resetAuto(); });
+  });
+
+  // Arrows
+  var prevBtn = $('.hero-prev', $('#heroCarousel'));
+  var nextBtn = $('.hero-next', $('#heroCarousel'));
+  if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); resetAuto(); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); resetAuto(); });
+
+  function resetAuto() {
+    clearInterval(timer);
+    timer = setInterval(function () { goTo(current + 1); }, 6000);
+  }
+  resetAuto();
+
+  // Pause on hover
+  var hero = $('#heroCarousel');
+  hero.addEventListener('mouseenter', function () { clearInterval(timer); });
+  hero.addEventListener('mouseleave', function () { resetAuto(); });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS COUNTER — animated count-up
+   ═══════════════════════════════════════════════════════════════ */
+function initStats() {
+  var stats = $$('.stat-num');
+  if (!stats.length) return;
+
+  var done = false;
+  function animate() {
+    if (done) return;
+    done = true;
+    stats.forEach(function (s) {
+      var target = parseInt(s.dataset.count) || 0;
+      var duration = 2000;
+      var start = 0, startTime = null;
+
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        s.textContent = Math.floor(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+        else s.textContent = target;
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var section = $('#stats');
+    new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { animate(); }
+    }, { threshold: .3 }).observe(section);
+  } else { animate(); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BACK TO TOP BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+function initBackToTop() {
+  var btn = $('#backToTop');
+  if (!btn) return;
+  window.addEventListener('scroll', function () {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACTIVE NAV ON SCROLL
+   ═══════════════════════════════════════════════════════════════ */
+function initActiveNav() {
+  var navItems = $$('.nav-item');
+  var sections = [];
+  navItems.forEach(function (item) {
+    var href = item.getAttribute('href');
+    if (href && href.indexOf('#') > -1) {
+      var id = href.split('#')[1];
+      var sec = document.getElementById(id);
+      if (sec) sections.push({ id: id, el: sec, nav: item });
+    }
+  });
+
+  window.addEventListener('scroll', function () {
+    var scrollY = window.scrollY + 120;
+    for (var i = sections.length - 1; i >= 0; i--) {
+      if (sections[i].el.offsetTop <= scrollY) {
+        navItems.forEach(function (n) { n.classList.remove('active'); });
+        sections[i].nav.classList.add('active');
+        break;
+      }
+    }
+  }, { passive: true });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OVERVIEW — click shows in left preview
    ═══════════════════════════════════════════════════════════════ */
 function initOverview(projects) {
   var region = $('#overview');
@@ -402,45 +360,58 @@ function initOverview(projects) {
   function makeItem(p, i) {
     var d = el('div', 'ov-item');
     d.innerHTML = '<div class="ov-thumb"><img alt="" src="' + (p.cover || avatarSVG(initials(p.title), colorFor(p.cls))) + '"></div>' +
-      '<div class="ov-info"><span class="ov-badge" style="--c:' + colorFor(p.cls) + '">' + esc(p.cls) + '</span><strong>' + esc(p.title) + '</strong></div>';
+      '<div class="ov-info"><span class="ov-badge" style="background:' + colorFor(p.cls) + '">' + esc(p.cls) + '</span><strong>' + esc(p.title) + '</strong></div>';
     d.addEventListener('click', function () { show(i); });
-    d.style.cursor = 'pointer';
     return d;
   }
 
   track.innerHTML = '';
-  items.forEach(function (p, i) { track.appendChild(makeItem(p, i)); });
+  var all = [];
+  items.forEach(function (p, i) { var node = makeItem(p, i); track.appendChild(node); all.push(node); });
+  // duplicate first 2 items for seamless infinite loop
+  items.slice(0, 2).forEach(function (p, i) { var node = makeItem(p, i); track.appendChild(node); all.push(node); });
 
-  var VISIBLE = window.innerWidth < 640 ? 3 : 4;
-  items.slice(0, VISIBLE).forEach(function (p, i) { track.appendChild(makeItem(p, i + items.length)); });
-
-  function ih() { return track.children[0] ? track.children[0].getBoundingClientRect().height + 16 : 72; }
-  function setListH() { list.style.height = (VISIBLE * ih() - 16) + 'px'; }
-  setListH();
+  function ih() { return track.children[0] ? track.children[0].getBoundingClientRect().height + 10 : 72; }
 
   var idx = 0;
   function setY(anim) {
-    track.style.transition = anim ? 'transform .5s ease' : 'none';
+    track.style.transition = anim ? 'transform .6s ease' : 'none';
     track.style.transform = 'translateY(' + (-idx * ih()) + 'px)';
   }
 
   function show(i) {
-    var p = items[((i % items.length) + items.length) % items.length];
+    var modI = i % items.length;
+    var p = items[modI];
     prev.classList.add('swap');
     setTimeout(function () {
       $('#ovImg').src = p.cover || avatarSVG(initials(p.title), colorFor(p.cls));
       $('#ovTitle').textContent = p.title;
       $('#ovDesc').textContent = p.desc || 'Click to view whitepaper';
+      var badge = $('#ovBadge');
+      badge.textContent = p.cls;
+      badge.style.background = colorFor(p.cls);
+      var readBtn = $('#ovRead');
+      readBtn.href = '#';
+      readBtn.onclick = function (e) { e.preventDefault(); openWhitepaper(p); };
       prev.classList.remove('swap');
     }, 220);
-    var allItems = $$('.ov-item', track);
-    var modI = i % items.length;
-    allItems.forEach(function (n, k) {
-      n.classList.toggle('active', k % (items.length + VISIBLE) === modI || k === modI);
+    $$('.ov-item', track).forEach(function (n, k) {
+      n.classList.toggle('active', k % items.length === modI);
     });
   }
 
-  function step() { idx++; setY(true); if (idx >= items.length) { setTimeout(function () { idx = 0; setY(false); }, 560); } show(idx); }
+  function step() {
+    idx++;
+    setY(true);
+    show(idx);
+    if (idx >= items.length) {
+      setTimeout(function () {
+        idx = 0;
+        setY(false);
+      }, 650);
+    }
+  }
+
   show(0); setY(false);
   window.addEventListener('resize', function () { setListH(); setY(false); });
   autoTimer(region, 4000, step);
@@ -460,7 +431,7 @@ function renderProjects(projects, limit) {
     c.style.animationDelay = (i * .06) + 's';
     c.innerHTML =
       '<div class="p-media"><img loading="lazy" alt="' + esc(p.title) + '" src="' + (p.cover || avatarSVG(initials(p.title), colorFor(p.cls))) + '"></div>' +
-      '<span class="p-badge" style="--c:' + colorFor(p.cls) + '">' + esc(p.cls) + '</span>' +
+      '<span class="p-badge" style="background:' + colorFor(p.cls) + '">' + esc(p.cls) + '</span>' +
       '<div class="p-info"><h3>' + esc(p.title) + '</h3>' + (p.desc ? '<p>' + esc(p.desc) + '</p>' : '') + '</div>';
     c.addEventListener('click', function () { openWhitepaper(p); });
     grid.appendChild(c);
@@ -469,9 +440,6 @@ function renderProjects(projects, limit) {
   if (vm) vm.classList.toggle('hidden', !limit || projects.length <= limit);
 }
 
-/* ── Cache for computed read-times ── */
-var readTimeCache = {};
-
 /* ══ FULL-SCREEN whitepaper modal ══ */
 function openWhitepaper(p) {
   var m = $('#wpModal');
@@ -479,7 +447,7 @@ function openWhitepaper(p) {
   $('#wpTitle').textContent = p.title;
   var b = $('#wpCls');
   b.textContent = p.cls;
-  b.style.setProperty('--c', colorFor(p.cls));
+  b.style.background = colorFor(p.cls);
   $('#wpBody').innerHTML = '<div class="wp-loading"><div class="wp-spinner"></div><p>Loading whitepaper…</p></div>';
   $('#wpMeta').innerHTML = 'AuroNexta Whitepaper · ' + esc(p.cls) + ' · <span class="read-time" aria-label="Estimated reading time">estimating…</span>';
   openModal(m);
@@ -488,13 +456,12 @@ function openWhitepaper(p) {
     var html = mdToHtml(md);
     $('#wpBody').innerHTML = html;
     var rt = readTime(md);
-    readTimeCache[p.slug] = rt;
     $('#wpMeta').innerHTML = 'AuroNexta Whitepaper · ' + esc(p.cls) + ' · <span class="read-time" aria-label="Estimated reading time">' + rt + ' read</span>';
   });
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   TEAM marquee + INLINE full-profile modal
+   TEAM marquee + modal
    ═══════════════════════════════════════════════════════════════ */
 function renderTeam(team) {
   var track = $('#teamTrack');
@@ -506,7 +473,7 @@ function renderTeam(team) {
       var c = el('div', 't-member');
       c.innerHTML =
         '<div class="t-photo"><img loading="lazy" alt="' + esc(m.name) + '" src="' + m.photo + '"></div>' +
-        '<div class="t-bar" style="--c:' + m.bg + '"><div class="t-name">' + esc(m.name) + '</div><span class="t-desig">' + esc(m.desig) + '</span></div>';
+        '<div class="t-bar"><div class="t-name">' + esc(m.name) + '</div><span class="t-desig">' + esc(m.desig) + '</span></div>';
       c.addEventListener('click', function () { openMember(m); });
       h.appendChild(c);
     });
@@ -534,7 +501,7 @@ function openMember(m) {
     var info = parseMember(m.base);
     var slug = info.name.toLowerCase().replace(/\s+/g, '-');
     linkedinEl.href = 'https://www.linkedin.com/in/' + slug + '-' + info.desig.toLowerCase().replace(/\s+/g, '-') + '-auronexta';
-    linkedinEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> View LinkedIn Profile';
+    linkedinEl.textContent = 'View LinkedIn Profile →';
   }
   openModal(modal);
   modal.classList.add('tm-fullscreen');
@@ -542,7 +509,7 @@ function openMember(m) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   TESTIMONIALS wheel — full 360° circle, unified card size
+   TESTIMONIALS wheel — full 360° circle
    ═══════════════════════════════════════════════════════════════ */
 function initTestimonials() {
   var region = $('.t-region');
@@ -551,13 +518,13 @@ function initTestimonials() {
   var data = CFG.demoTestimonials;
   if (!data || !data.length) return;
 
-  var spacing = 24;
+  var spacing = 45;
   var needed = Math.ceil(360 / spacing);
   var filled = [];
   while (filled.length < needed) filled = filled.concat(data);
   filled = filled.slice(0, needed);
 
-  var R = window.innerWidth < 600 ? 400 : window.innerWidth < 900 ? 480 : 580, rot = 0;
+  var R = window.innerWidth < 600 ? 530 : window.innerWidth < 900 ? 590 : 680, rot = 0;
   wheel.innerHTML = '';
   var cards = filled.map(function (t, i) {
     var c = el('div', 't-card');
@@ -577,7 +544,7 @@ function initTestimonials() {
     });
   }
   layout();
-  window.addEventListener('resize', function () { R = window.innerWidth < 600 ? 360 : window.innerWidth < 900 ? 440 : 520; layout(); });
+  window.addEventListener('resize', function () { R = window.innerWidth < 600 ? 490 : window.innerWidth < 900 ? 550 : 640; layout(); });
   autoTimer(region, 5000, function () { rot -= spacing; layout(); });
 }
 
@@ -599,10 +566,11 @@ document.addEventListener('keydown', function (e) {
 });
 
 /* ══ FAB radial menu ══ */
-var fabEl = $('#fab');
+var fabEl = null;
 var fabIcons = ['↑', '⚡', '◉', 'ℹ', '◆', '👥', '★', '✉'];
 
 function buildFab() {
+  fabEl = $('#fab');
   if (!fabEl) return;
   fabEl.innerHTML = '';
   var x = el('button', 'fab-center', '✕');
@@ -645,7 +613,7 @@ document.addEventListener('contextmenu', function (e) {
 });
 
 document.addEventListener('click', function (e) {
-  if (!fabEl.hidden && !e.target.closest('.fab')) closeFab();
+  if (fabEl && !fabEl.hidden && !e.target.closest('.fab')) closeFab();
 });
 
 /* ══ Contact form ══ */
@@ -671,9 +639,22 @@ function initContact() {
   });
 }
 
+/* ══ Smooth scroll for anchor links ══ */
+function initSmoothScroll() {
+  $$('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
 /* ══ Scroll reveal ══ */
 function initReveal() {
-  $$('.card, .about-card, .sec-pill, .p-card, .t-member').forEach(function (e) { e.classList.add('reveal'); });
+  $$('.reveal').forEach(function (e) { e.classList.add('reveal'); });
   if (!('IntersectionObserver' in window)) { $$('.reveal').forEach(function (e) { e.classList.add('in'); }); return; }
   var io = new IntersectionObserver(function (en) {
     en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
@@ -687,23 +668,19 @@ function initReveal() {
 document.addEventListener('DOMContentLoaded', function () {
   var page = document.body.dataset.page;
 
-  $$('[data-include="header"]').forEach(function (n) { n.outerHTML = buildHeader(); });
-  $$('[data-include="footer"]').forEach(function (n) { n.outerHTML = FOOTER_HTML; });
-
-  initNav();
-
-  /* Menu toggle */
-  var toggle = $('.menu-toggle');
-  if (toggle) {
-    toggle.addEventListener('click', function () {
-      var nav = $('.nav');
-      if (nav) nav.classList.toggle('nav-open');
-      toggle.textContent = nav && nav.classList.contains('nav-open') ? '✕' : '☰';
-    });
-  }
-
+  initStickyHeader();
+  initMobileMenu();
+  initSmoothScroll();
+  initActiveNav();
+  initBackToTop();
   initReveal();
-  if (page === 'index') { initOrbit(); initTestimonials(); initContact(); }
+
+  if (page === 'index') {
+    initHeroCarousel();
+    initStats();
+    initTestimonials();
+    initContact();
+  }
 
   loadProjects().then(function (projects) {
     if (page === 'index') { renderProjects(projects, 6); initOverview(projects); }

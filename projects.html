@@ -6,19 +6,140 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="top" data-page="projects">
-<div data-include="header"></div>
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-flag">🇬🇧 UK</span>
+      <span class="topbar-flag">🇮🇳 India</span>
+    </div>
+    <div class="topbar-center">
+      <span class="topbar-announce">🤖 <strong>Agentic Chat Bot</strong> is live — automated bookings, 24/7.</span>
+    </div>
+    <div class="topbar-right">
+      <a href="mailto:support@auronexta.uk" class="topbar-link">✉ support@auronexta.uk</a>
+      <a href="tel:+44123456789" class="topbar-link">📞 +44 123456789</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link">
+      <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="logo-img">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#top" class="nav-item">Home</a>
+      <a href="index.html#services" class="nav-item">Services</a>
+      <a href="index.html#about" class="nav-item">About Us</a>
+      <a href="projects.html" class="nav-item active">Projects</a>
+      <a href="index.html#stats" class="nav-item">Impact</a>
+      <a href="index.html#team" class="nav-item">Team</a>
+      <a href="index.html#news" class="nav-item">News</a>
+      <a href="index.html#contact" class="nav-item">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="menu-toggle" aria-label="Menu" id="menuToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ BREADCRUMB ═══ -->
+<div class="section" style="padding-bottom:0">
+  <a href="index.html" class="breadcrumb-link">← Back to Home</a>
+</div>
+
+<!-- ═══ ALL PROJECTS ═══ -->
 <section id="projects" class="section">
-  <h2 class="sec-pill">All Projects</h2>
-  <p class="sec-sub">Every project from our repository, grouped by class.</p>
+  <div class="section-header">
+    <span class="section-label">Portfolio</span>
+    <h2 class="section-title">All Projects</h2>
+    <p class="section-sub">Every project from our repository, click any card to read its full whitepaper.</p>
+  </div>
   <div id="projGrid" class="proj-grid full"></div>
 </section>
-<div data-include="footer"></div>
-<div id="wpModal" class="modal" hidden><div class="modal-back" data-close></div>
-  <article class="modal-card blog"><button class="modal-x" data-close>✕</button>
-    <header class="blog-head"><span id="wpCls" class="p-badge"></span><h2 id="wpTitle"></h2><p id="wpMeta" class="blog-meta"></p></header>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="footer-logo">
+        <p>Agentic automation, AI/ML engineering and full-stack software for global clients with round-the-clock support from the UK and India.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="GitHub">GH</a>
+          <a href="#" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="index.html#services">Agentic Systems</a>
+        <a href="index.html#services">AI / ML Pipeline</a>
+        <a href="index.html#services">Drone Operations</a>
+        <a href="index.html#services">Robotics & R&D</a>
+        <a href="index.html#services">Web Engineering</a>
+        <a href="index.html#services">Dev & Infrastructure</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#team">Our Team</a>
+        <a href="projects.html">Projects</a>
+        <a href="index.html#news">News & Updates</a>
+        <a href="index.html#testimonials">Client Reviews</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>🇬🇧 United Kingdom</p>
+        <p><a href="tel:+44123456789">+44 123456789</a></p>
+        <p>🇮🇳 India (R&D Hub)</p>
+        <p><a href="tel:+91123456789">+91 123456789</a></p>
+        <p><a href="mailto:support@auronexta.uk">support@auronexta.uk</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span>© 2026 AuroNexta. All rights reserved.</span>
+      <span>Registered in England &amp; Wales</span>
+      <span>Designed &amp; Developed by VAMSI</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ MODALS ═══ -->
+<div id="wpModal" class="modal" hidden>
+  <div class="modal-back" data-close></div>
+  <article class="modal-card blog">
+    <button class="modal-x" data-close>✕</button>
+    <header class="blog-head">
+      <span id="wpCls" class="p-badge"></span>
+      <h2 id="wpTitle"></h2>
+      <p id="wpMeta" class="blog-meta"></p>
+    </header>
     <div id="wpBody" class="blog-body"></div>
   </article>
 </div>
+<div id="tmModal" class="modal" hidden>
+  <div class="modal-back" data-close></div>
+  <article class="modal-card mini">
+    <button class="modal-x" data-close>✕</button>
+    <header class="mini-head">
+      <img id="tmImg" alt="">
+      <div><h2 id="tmName"></h2><p id="tmDesig"></p></div>
+    </header>
+    <div id="tmBody" class="blog-body"></div>
+  </article>
+</div>
+<div id="fab" class="fab" hidden><div class="fab-ring"></div></div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
 </body>

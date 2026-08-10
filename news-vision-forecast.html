@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Forecast v2 — 21% MAPE Reduction — AuroNexta</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="top" data-page="news">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-flag">🇬🇧 UK</span>
+      <span class="topbar-flag">🇮🇳 India</span>
+    </div>
+    <div class="topbar-center">
+      <span class="topbar-announce">🤖 <strong>Agentic Chat Bot</strong> is live — automated bookings, 24/7.</span>
+    </div>
+    <div class="topbar-right">
+      <a href="mailto:support@auronexta.uk" class="topbar-link">✉ support@auronexta.uk</a>
+      <a href="tel:+44123456789" class="topbar-link">📞 +44 123456789</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link">
+      <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="logo-img">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#top" class="nav-item">Home</a>
+      <a href="index.html#services" class="nav-item">Services</a>
+      <a href="index.html#about" class="nav-item">About Us</a>
+      <a href="projects.html" class="nav-item">Projects</a>
+      <a href="index.html#stats" class="nav-item">Impact</a>
+      <a href="index.html#team" class="nav-item">Team</a>
+      <a href="index.html#news" class="nav-item active">News</a>
+      <a href="index.html#contact" class="nav-item">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="menu-toggle" aria-label="Menu" id="menuToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="section news-article">
+  <a href="index.html#news" class="breadcrumb-link">← Back to News</a>
+  <div class="article-hero">
+    <span class="article-tag">AI / ML</span>
+    <h1 class="article-title">Vision Forecast v2 — 21% MAPE Reduction</h1>
+    <div class="article-meta">
+      <span>📅 09 August 2025</span>
+      <span>⏱ 12 min read</span>
+      <span>✍ AuroNexta AI/ML Team</span>
+    </div>
+  </div>
+  <div class="article-body">
+    <p class="article-lead">Our temporal transformer pipeline now covers 200+ signals with automated retraining via CI/CD, delivering a 21% MAPE reduction over our legacy forecasting system. This update marks a major milestone in our mission to bring production-grade AI to every business.</p>
+
+    <h2>The Challenge</h2>
+    <p>Our client, a multi-national retail and manufacturing group, struggled with demand forecasting across 400+ SKUs and 12 distribution centres. Their legacy ARIMA-based system suffered from high MAPE (32% average), manual model tuning, and no real-time response to demand shocks like supply chain disruptions or seasonal spikes.</p>
+    <p>The result? Overstock in some locations, stock-outs in others, and $2.1M in annual inventory holding costs that could have been avoided with more accurate predictions.</p>
+
+    <h2>Our Approach</h2>
+    <p>We built a multi-horizon demand forecasting pipeline from the ground up using PyTorch temporal transformers. The system ingests 200+ signals including:</p>
+    <ul>
+      <li>Historical sales data (5+ years, daily granularity)</li>
+      <li>Weather forecasts and seasonal indices</li>
+      <li>Promotional calendars and price elasticity</li>
+      <li>Supplier lead-time variability</li>
+      <li>Macroeconomic indicators (inflation, consumer confidence)</li>
+      <li>Competitor pricing signals (web-scraped)</li>
+    </ul>
+
+    <h2>Architecture</h2>
+    <p>The pipeline is built for production, not experimentation. Every component is containerised, monitored, and auto-retrained:</p>
+    <ol>
+      <li><strong>Data Ingestion Layer</strong> — Apache Kafka streams real-time sales and external signals into a Delta Lake on AWS S3</li>
+      <li><strong>Feature Store</strong> — 200+ engineered features with automated drift detection and alerting</li>
+      <li><strong>Model Layer</strong> — Temporal Fusion Transformer (TFT) with graph neural networks for store clustering, ensembled with ARIMA baselines</li>
+      <li><strong>Serving Layer</strong> — SageMaker endpoints (3 replicas, auto-scaling) with <200ms p99 latency</li>
+      <li><strong>CI/CD Pipeline</strong> — Airflow DAGs trigger nightly retraining; new models promoted via canary deployment after automated evaluation</li>
+    </ol>
+
+    <h2>Results</h2>
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-num">21%</div>
+        <div class="result-label">MAPE Reduction</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">15%</div>
+        <div class="result-label">Inventory Cost Savings</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num"><200ms</div>
+        <div class="result-label">Prediction Latency</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">24/7</div>
+        <div class="result-label">Auto-Retraining</div>
+      </div>
+    </div>
+
+    <h2>What's Next</h2>
+    <p>We're now extending the pipeline to cover causal inference — automatically identifying which signals drive forecast errors and suggesting corrective actions. The goal: not just to predict demand, but to act on it.</p>
+    <p>For a deep dive into the technical architecture, see our full whitepaper on the <a href="projects.html">Projects</a> page.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="footer-logo">
+        <p>Agentic automation, AI/ML engineering and full-stack software for global clients.</p>
+        <div class="footer-social"><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="GitHub">GH</a><a href="#" aria-label="Twitter">𝕏</a></div>
+      </div>
+      <div class="footer-col"><h4>Services</h4><a href="index.html#services">Agentic Systems</a><a href="index.html#services">AI / ML Pipeline</a><a href="index.html#services">Drone Operations</a><a href="index.html#services">Robotics & R&D</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="index.html#about">About Us</a><a href="projects.html">Projects</a><a href="index.html#news">News & Updates</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>🇬🇧 +44 123456789</p><p>🇮🇳 +91 123456789</p><p><a href="mailto:support@auronexta.uk">support@auronexta.uk</a></p></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="footer-bottom-inner"><span>© 2026 AuroNexta. All rights reserved.</span><span>Registered in England &amp; Wales</span><span>Designed &amp; Developed by VAMSI</span></div></div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

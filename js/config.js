@@ -1,16 +1,4 @@
 const SITE_JSON = {
-  /* ═══════════════════════════════════════════════════════════════
-     SECTION A — GITHUB DATA LOADER (COMMENTED OUT)
-     Uncomment + fill credentials. Comment out SECTION B.
-     ═══════════════════════════════════════════════════════════════
-  "github": {
-    "owner":  "YOUR_USERNAME",
-    "repo":   "YOUR_DATA_REPO",
-    "branch": "main",
-    "projectsPath":  "projects",
-    "profilePath":   "web/profiles"
-  },
-  */
   "github": {
     "owner": "YOUR_GITHUB_USERNAME",
     "repo":  "YOUR_REPO_NAME",
@@ -18,11 +6,6 @@ const SITE_JSON = {
     "projectsPath": "projects",
     "profilePath":  "web/profiles"
   },
-
-  /* ═══════════════════════════════════════════════════════════════
-     SECTION B — DUMMY / DEMO DATA (ACTIVE)
-     Comment everything below when switching to SECTION A.
-     ═══════════════════════════════════════════════════════════════ */
 
   "fab": {
     "radius": 80,
@@ -78,49 +61,48 @@ const SITE_JSON = {
   "demoTeam": [[
     {
         "base": "01_Hari_Krishnan_Co_Founder",
-        "bg": "#c96a00",
-        "md": "# Hari Krishnan\n**Co-Founder**\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras vehicula, mi eget laoreet venenatis, eros lectus auctor nibh, sit amet faucibus magna eros quis magna.\n\n## Education\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n\n## About\n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+        "bg": "#1a56db",
+        "md": "# Hari Krishnan\n**Co-Founder**\n\nLeading AuroNexta's UK operations with a focus on agentic systems and enterprise automation.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\n12+ years in enterprise software and AI engineering."
     },
     {
         "base": "02_Vamsi_Madhav_Co_Founder",
         "bg": "#c4009c",
-        "md": "# Vamsi Madhav\n**Co-Founder**\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n## Education\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.\n\n## About\n\nInteger in sapien. Sed adipiscing ornare eget. Mauris lacinia sollicitudin quam. Maecenas sollicitudin, nulla ut elementum imperdiet, quam sem venenatis leo, vitae tempus quam tortor in mauris."
+        "md": "# Vamsi Madhav\n**Co-Founder**\n\nFull-stack architect and developer behind AuroNexta's web and automation platforms.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\nSpecializing in headless commerce, PWAs and agentic workflows."
     },
     {
         "base": "03_Vishnavi_D_Graphic_Designer",
         "bg": "#7a00d6",
-        "md": "# Vishnavi D\n**Graphic Designer**\n\nPraesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.\n\n## Education\n\nPhasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec telling. Curabitur dignissim. Proin facilisis.\n\n## About\n\nIn enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus."
+        "md": "# Vishnavi D\n**Graphic Designer**\n\nCrafting visual identities and user interfaces for AuroNexta's client projects.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\nExpert in brand systems, motion design and UI prototyping."
     },
     {
         "base": "04_Aakash_C_Developer",
         "bg": "#0063d1",
-        "md": "# Aakash C\n**Developer**\n\nFusce mauris. Vestibulum luctus nibh at lectus. Sed bibendum, nulla a faucibus semper, leo odio luctus velit, ac ornare felis magna in sapien. Etiam ut diam.\n\n## Education\n\nSed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc. Duis malesuada justo vel diam.\n\n## About\n\nAliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum."
+        "md": "# Aakash C\n**Developer**\n\nBackend systems engineer building scalable APIs and data pipelines.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\nDeep expertise in distributed systems, cloud infrastructure and CI/CD."
     },
     {
         "base": "05_Divya_B_Project_Manager",
         "bg": "#0084c9",
-        "md": "# Divya B\n**Project Manager**\n\nNulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.\n\n## Education\n\nEtiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel.\n\n## About\n\nInteger ac leo. Pellentesque ultrices mattis odio. Praesent blandit lacinia augue. Fusce vulputate aliquam metus. Vestibulum commodo viverra neque."
+        "md": "# Divya B\n**Project Manager**\n\nOrchestrating multi-region delivery with precision timelines and client alignment.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\nPMP certified with 8+ years managing engineering delivery teams."
     },
     {
         "base": "06_Vinod_Robotics",
         "bg": "#009a2d",
-        "md": "# Vinod\n**Robotics**\n\nMaecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.\n\n## Education\n\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut aliquet purus sit amet luctus venenatis.\n\n## About\n\nCras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia."
+        "md": "# Vinod\n**Robotics**\n\nAutonomous systems engineer specializing in field robotics and SLAM.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n\nBuilding rovers and inspection robots for agriculture and infrastructure."
     },
     {
         "base": "07_Yogi_AR_Drone",
         "bg": "#00c395",
-        "md": "# Yogi\n**AR & Drone**\n\nDonec sed odio dui. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit.\n\n## Education\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.\n\n## About\n\nCras justo odio, dapibus ut facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus."
+        "md": "# Yogi\n**AR & Drone**\n\nDrone operations lead with BVLOS certification and AR overlay expertise.\n\n## Education\n\n*Updated soon*\n\n## Work Experience\n\n*Updated soon*\n\n## Projects Leading\n\n*Updated soon*\n\n## About\n- DJI Certified Pilot\n- 500+ flight hours\n- BVLOS corridor mapping specialist"
     }
 ]],
 
   "demoTestimonials": [
-    { "name": "Oliver Thompson", "msg": "The booking agent paid for itself in six weeks. Flawless delivery from the AuroNexta team.", "bg": "#0063d1" },
+    { "name": "Oliver Thompson", "msg": "The booking agent paid for itself in six weeks. Flawless delivery from the AuroNexta team.", "bg": "#1a56db" },
     { "name": "Priya Sharma",  "msg": "Their drone surveys cut our infrastructure inspection costs by half. Incredible precision.", "bg": "#c4009c" },
     { "name": "James Williams", "msg": "Professional, fast, and the detailed whitepapers made every technical decision transparent.", "bg": "#009a2d" },
-    { "name": "Ananya Reddy", "msg": "Our storefront went from 61 to 98 on Lighthouse. Best web engineering team we've worked with.", "bg": "#c96a00" },
+    { "name": "Ananya Reddy", "msg": "Our storefront went from 61 to 98 on Lighthouse. Best web engineering team we've worked with.", "bg": "#d97706" },
     { "name": "Marco Bianchi", "msg": "The robotics rover works rain or shine in the field. Superb engineering and robust design.", "bg": "#7a00d6" },
     { "name": "Sarah Chen", "msg": "AuroNexta's AI models reduced our forecast errors by 21%. Truly state-of-the-art work.", "bg": "#00c395" },
     { "name": "David Okafor", "msg": "Clean code, great documentation, and they actually delivered on time. Rare to find all three.", "bg": "#c40000" }
   ]
-  /* ← END OF SECTION B */
 };

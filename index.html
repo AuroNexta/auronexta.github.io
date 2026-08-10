@@ -10,93 +10,454 @@
 </head>
 <body id="top" data-page="index">
 
-<div data-include="header"></div>
-
-<section id="services" class="section" aria-label="Services orbit">
-  <div id="orbitStage">
-    <div class="hub hub-web" data-hub="web"><span>WEB &amp; NETWORKS</span></div>
-    <div class="hub hub-dev" data-hub="dev"><span>DEV &amp; SERVICES</span></div>
-    <div class="hub hub-ai"  data-hub="ai"><span>AI &amp; ML</span></div>
-  </div>
-</section>
-
-<section id="overview" class="section">
-  <h2 class="sec-pill pill-accent">Overview</h2>
-  <div class="ov-wrap card">
-    <div id="ovPreview" class="ov-preview" aria-live="polite">
-      <div class="ov-media"><img id="ovImg" alt="Project preview"></div>
-      <div class="ov-meta"><h3 id="ovTitle"></h3><p id="ovDesc"></p></div>
+<!-- ═══ TOP BAR ═══ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-flag">🇬🇧 UK</span>
+      <span class="topbar-flag">🇮🇳 India</span>
     </div>
-    <div id="ovList" class="ov-list"><div id="ovTrack"></div></div>
+    <div class="topbar-center">
+      <span class="topbar-announce">🤖 <strong>Agentic Chat Bot</strong> is live — automated bookings, 24/7.</span>
+    </div>
+    <div class="topbar-right">
+      <a href="mailto:support@auronexta.uk" class="topbar-link">✉ support@auronexta.uk</a>
+      <a href="tel:+44123456789" class="topbar-link">📞 +44 123456789</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HEADER — sticky nav ═══ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link">
+      <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="logo-img">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#top" class="nav-item active">Home</a>
+      <a href="#services" class="nav-item">Services</a>
+      <a href="#about" class="nav-item">About Us</a>
+      <a href="projects.html" class="nav-item">Projects</a>
+      <a href="#stats" class="nav-item">Impact</a>
+      <a href="#team" class="nav-item">Team</a>
+      <a href="#news" class="nav-item">News</a>
+      <a href="#contact" class="nav-item">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="menu-toggle" aria-label="Menu" id="menuToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO CAROUSEL ═══ -->
+<section class="hero" id="heroCarousel">
+  <div class="hero-slides">
+    <div class="hero-slide active" data-slide="0">
+      <div class="hero-bg" style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)"></div>
+      <div class="hero-content">
+        <span class="hero-badge">AGENTIC AUTOMATION</span>
+        <h1 class="hero-title">Intelligent Systems<br>for Every Business</h1>
+        <p class="hero-desc">We design autonomous agents, AI models and robotic platforms that remove repetitive work and unlock human potential.</p>
+        <div class="hero-btns">
+          <a href="#services" class="btn btn-primary">Explore Services →</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+      <div class="hero-decor">
+        <div class="hero-circle c1"></div>
+        <div class="hero-circle c2"></div>
+        <div class="hero-circle c3"></div>
+      </div>
+    </div>
+    <div class="hero-slide" data-slide="1">
+      <div class="hero-bg" style="background:linear-gradient(135deg,#0f3460 0%,#533483 50%,#e94560 100%)"></div>
+      <div class="hero-content">
+        <span class="hero-badge">AI & ML ENGINEERING</span>
+        <h1 class="hero-title">From Data to<br>Decisions, Faster</h1>
+        <p class="hero-desc">Temporal forecasting, vision models, RAG pipelines — production-grade AI delivered with full transparency.</p>
+        <div class="hero-btns">
+          <a href="projects.html" class="btn btn-primary">View Projects →</a>
+          <a href="#about" class="btn btn-outline">Our Approach</a>
+        </div>
+      </div>
+      <div class="hero-decor">
+        <div class="hero-circle c1"></div>
+        <div class="hero-circle c2"></div>
+        <div class="hero-circle c3"></div>
+      </div>
+    </div>
+    <div class="hero-slide" data-slide="2">
+      <div class="hero-bg" style="background:linear-gradient(135deg,#1b4332 0%,#2d6a4f 50%,#40916c 100%)"></div>
+      <div class="hero-content">
+        <span class="hero-badge">ROBOTICS & DRONES</span>
+        <h1 class="hero-title">Autonomous Hardware<br>Built to Last</h1>
+        <p class="hero-desc">Field rovers, BVLOS drones and inspection systems — engineered for real-world conditions and measurable outcomes.</p>
+        <div class="hero-btns">
+          <a href="#overview" class="btn btn-primary">See Our Work →</a>
+          <a href="#contact" class="btn btn-outline">Request Demo</a>
+        </div>
+      </div>
+      <div class="hero-decor">
+        <div class="hero-circle c1"></div>
+        <div class="hero-circle c2"></div>
+        <div class="hero-circle c3"></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots">
+    <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+    <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+    <button class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
+  </div>
+  <button class="hero-prev" aria-label="Previous">‹</button>
+  <button class="hero-next" aria-label="Next">›</button>
+</section>
+
+<!-- ═══ SERVICES — card grid with icons ═══ -->
+<section id="services" class="section section-services">
+  <div class="section-header">
+    <span class="section-label">What We Offer</span>
+    <h2 class="section-title">Our Core Services</h2>
+    <p class="section-sub">End-to-end engineering across software, AI, robotics and infrastructure.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🤖</div>
+      <h3>Agentic Systems</h3>
+      <p>Autonomous chatbots for bookings, support and workflows with human handoff.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🧠</div>
+      <h3>AI / ML Pipeline</h3>
+      <p>Forecasting, vision detection and RAG systems deployed to production endpoints.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🚁</div>
+      <h3>Drone Operations</h3>
+      <p>BVLOS corridor mapping, inspection and 4cm GSD orthomosaic delivery.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">⚙️</div>
+      <h3>Robotics & R&D</h3>
+      <p>Autonomous rovers with RTK-GPS, NDVI mapping and multi-spectral payloads.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🌐</div>
+      <h3>Web Engineering</h3>
+      <p>Headless storefronts, PWAs and 98+ Lighthouse score production sites.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🛡️</div>
+      <h3>Dev & Infrastructure</h3>
+      <p>CI/CD pipelines, cloud architecture and zero-install offline-first tools.</p>
+      <a href="projects.html" class="service-link">Learn More →</a>
+    </div>
   </div>
 </section>
 
-<section id="about" class="section">
-  <h2 class="sec-pill pill-black right">What We Do ?</h2>
-  <div class="card about-card">
-    <article><h3>Our Mission</h3><p>AuroNexta exists to make advanced automation accessible to every business. We design agentic systems, intelligent software and robotic platforms that remove repetitive work, reduce cost and let people focus on judgement, creativity and growth — delivered with engineering rigour and complete transparency.</p></article>
-    <article><h3>Our Dream</h3><p>We envision a world where small teams achieve enterprise-scale outcomes. Our dream is a self-orchestrating digital workforce — agents, drones and software working in harmony under human oversight — so that geography and size never limit ambition again.</p></article>
-    <article><h3>Our Target</h3><p>Ship measurable outcomes: every engagement is scoped with clear KPIs, documented in a public whitepaper, and handed over with training and support. Our target is 100% of projects in production, maintained, and understood by the teams who own them.</p></article>
-  </div>
-</section>
-
-<section id="projects" class="section">
-  <h2 class="sec-pill">Projects</h2>
-  <p class="sec-sub">Live from our repository — open any project to read its whitepaper.</p>
-  <div id="projGrid" class="proj-grid"></div>
-  <div id="viewMoreWrap" class="center hidden"><a class="btn-more" href="projects.html">View More Projects ↓</a></div>
-</section>
-
-<section id="team" class="section">
-  <h2 class="sec-pill pill-black right">Meet the Team</h2>
-  <div class="team-region"><div id="teamTrack" class="team-track"></div></div>
-</section>
-
-<section id="testimonials" class="section">
-  <h2 class="sec-pill pill-accent wide">Testimonials</h2>
-  <div class="t-region"><div id="tWheel"></div></div>
-</section>
-
-<section id="contact" class="section">
-  <h2 class="sec-pill pill-black wide">Contact Us</h2>
-  <div class="card contact-wrap">
-    <form id="contactForm" class="contact-form" novalidate>
-      <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label>Name<input name="name" required placeholder="Your full name"></label>
-      <label>Email<input name="email" type="email" required placeholder="you@company.com"></label>
-      <label>Subject<input name="subject" required placeholder="How can we help?"></label>
-      <label>Message<textarea name="message" rows="5" required placeholder="Tell us about your project…"></textarea></label>
-      <button class="btn-send" type="submit">Send Message ➤</button>
-      <p id="formStatus" role="status"></p>
-    </form>
-    <div class="contact-info">
-      <h3><span>AuroNexta</span></h3>
-      <p><a href="mailto:support@auronexta.uk">support@auronexta.uk</a></p>
-      <p><a href="mailto:administrator@auronexta.uk">administrator@auronexta.uk</a></p>
-      <div class="quick-assist">
-        <strong>Quick Assist Team <small>(WhatsApp Team)</small></strong>
-        <a href="https://wa.me/44123456789">+44 123456789</a>
+<!-- ═══ ABOUT — two-column section ═══ -->
+<section id="about" class="section section-about">
+  <div class="about-layout">
+    <div class="about-visual reveal">
+      <div class="about-graphic">
+        <div class="about-ring r1"></div>
+        <div class="about-ring r2"></div>
+        <div class="about-ring r3"></div>
+        <div class="about-center-icon">🜲</div>
+      </div>
+      <div class="about-floating-cards">
+        <div class="float-card fc1"><span class="fc-num">50+</span><span class="fc-label">Projects Delivered</span></div>
+        <div class="float-card fc2"><span class="fc-num">24/7</span><span class="fc-label">Engineering Coverage</span></div>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">Engineering Automation<br>That Delivers Results</h2>
+      <p class="about-text">AuroNexta exists to make advanced automation accessible to every business. We design agentic systems, intelligent software and robotic platforms that remove repetitive work, reduce cost and let people focus on judgement, creativity and growth.</p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🎯</div>
+          <h4>Our Mission</h4>
+          <p>Deliver agentic systems with engineering rigour and complete transparency.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🌍</div>
+          <h4>Our Dream</h4>
+          <p>A self-orchestrating digital workforce working in harmony under human oversight.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📊</div>
+          <h4>Our Target</h4>
+          <p>100% of projects in production, maintained, and understood by client teams.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<div data-include="footer"></div>
+<!-- ═══ STATS — counters strip ═══ -->
+<section id="stats" class="section section-stats">
+  <div class="stats-strip">
+    <div class="stat-item reveal">
+      <div class="stat-icon">🚀</div>
+      <div class="stat-num" data-count="50">0</div>
+      <div class="stat-label">Projects Shipped</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">🌍</div>
+      <div class="stat-num" data-count="12">0</div>
+      <div class="stat-label">Countries Served</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">🤝</div>
+      <div class="stat-num" data-count="30">0</div>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-num" data-count="99">0</div>
+      <div class="stat-label">% On-Time Delivery</div>
+    </div>
+  </div>
+</section>
 
-<div id="wpModal" class="modal" hidden><div class="modal-back" data-close></div>
-  <article class="modal-card blog"><button class="modal-x" data-close>✕</button>
-    <header class="blog-head"><span id="wpCls" class="p-badge"></span><h2 id="wpTitle"></h2><p id="wpMeta" class="blog-meta"></p></header>
+<!-- ═══ PROJECT OVERVIEW — preview section ═══ -->
+<section id="overview" class="section section-overview">
+  <div class="section-header">
+    <span class="section-label">Featured Work</span>
+    <h2 class="section-title">Project Overview</h2>
+    <p class="section-sub">Click any project to preview details, then read the full whitepaper.</p>
+  </div>
+  <div class="ov-layout card">
+    <div id="ovPreview" class="ov-preview" aria-live="polite">
+      <div class="ov-media"><img id="ovImg" alt="Project preview"></div>
+      <div class="ov-meta">
+        <span id="ovBadge" class="ov-badge-badge"></span>
+        <h3 id="ovTitle"></h3>
+        <p id="ovDesc"></p>
+        <a id="ovRead" class="btn btn-sm" href="#">Read Whitepaper →</a>
+      </div>
+    </div>
+    <div class="ov-list-wrap">
+      <div id="ovList" class="ov-list"><div id="ovTrack"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NEWS & UPDATES ═══ -->
+<section id="news" class="section section-news">
+  <div class="section-header">
+    <span class="section-label">Latest</span>
+    <h2 class="section-title">News &amp; Updates</h2>
+    <p class="section-sub">From our engineering blog and field deployments.</p>
+  </div>
+  <div class="news-grid">
+    <div class="news-card reveal">
+      <div class="news-date"><span class="news-day">09</span><span class="news-month">AUG</span><span class="news-year">2025</span></div>
+      <div class="news-body">
+        <span class="news-tag">AI / ML</span>
+        <h3>Vision Forecast v2 — 21% MAPE Reduction</h3>
+        <p>Our temporal transformer pipeline now covers 200+ signals with automated retraining via CI/CD.</p>
+        <a href="news-vision-forecast.html" class="news-link">Read More →</a>
+      </div>
+    </div>
+    <div class="news-card reveal">
+      <div class="news-date"><span class="news-day">01</span><span class="news-month">AUG</span><span class="news-year">2025</span></div>
+      <div class="news-body">
+        <span class="news-tag">DRONES</span>
+        <h3>Sky Survey Completes Railway Corridor Mapping</h3>
+        <p>120km BVLOS corridor inspected with 4cm GSD orthomosaics and automated damage detection.</p>
+        <a href="news-sky-survey.html" class="news-link">Read More →</a>
+      </div>
+    </div>
+    <div class="news-card reveal">
+      <div class="news-date"><span class="news-day">22</span><span class="news-month">JUL</span><span class="news-year">2025</span></div>
+      <div class="news-body">
+        <span class="news-tag">AGENTIC</span>
+        <h3>Booking Bot Goes Live for European Client</h3>
+        <p>24/7 autonomous bookings with WhatsApp integration — 38% conversion uplift from abandoned flows.</p>
+        <a href="news-booking-bot.html" class="news-link">Read More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS PREVIEW — grid ═══ -->
+<section id="projects" class="section section-projects">
+  <div class="section-header">
+    <span class="section-label">Portfolio</span>
+    <h2 class="section-title">Our Projects</h2>
+    <p class="section-sub">Live from our repository — click any card to read its whitepaper.</p>
+  </div>
+  <div id="projGrid" class="proj-grid"></div>
+  <div id="viewMoreWrap" class="center hidden"><a class="btn btn-primary" href="projects.html">View All Projects →</a></div>
+</section>
+
+<!-- ═══ TEAM — scrolling strip ═══ -->
+<section id="team" class="section section-team">
+  <div class="section-header">
+    <span class="section-label">Our People</span>
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-sub">The engineers, designers and operators behind AuroNexta.</p>
+  </div>
+  <div class="team-region">
+    <div id="teamTrack" class="team-track"></div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS — review strip ═══ -->
+<section id="testimonials" class="section section-testimonials">
+  <div class="section-header">
+    <span class="section-label">Client Feedback</span>
+    <h2 class="section-title">What Our Clients Say</h2>
+  </div>
+  <div class="t-region">
+    <div id="tWheel"></div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section section-contact">
+  <div class="contact-layout">
+    <div class="contact-info-panel reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="section-title">Let's Build Something<br>Extraordinary</h2>
+      <p class="contact-text">Tell us about your project. We'll respond within 24 hours with a scoped plan and timeline.</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="cd-icon">📧</div>
+          <div>
+            <strong>Email</strong>
+            <a href="mailto:support@auronexta.uk">support@auronexta.uk</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📞</div>
+          <div>
+            <strong>UK Office</strong>
+            <a href="tel:+44123456789">+44 123456789</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📱</div>
+          <div>
+            <strong>India R&D Hub</strong>
+            <a href="tel:+91123456789">+91 123456789</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">💬</div>
+          <div>
+            <strong>Quick Assist Team</strong>
+            <a href="https://wa.me/44123456789" target="_blank">WhatsApp Us →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-panel card reveal">
+      <form id="contactForm" class="contact-form" novalidate>
+        <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-row">
+          <label>Name <input name="name" required placeholder="Your full name"></label>
+          <label>Email <input name="email" type="email" required placeholder="you@company.com"></label>
+        </div>
+        <label>Subject <input name="subject" required placeholder="How can we help?"></label>
+        <label>Message <textarea name="message" rows="6" required placeholder="Tell us about your project…"></textarea></label>
+        <button class="btn btn-primary btn-block" type="submit">Send Message →</button>
+        <p id="formStatus" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="AuroNexta_new_logo.png" alt="AuroNexta" class="footer-logo">
+        <p>Agentic automation, AI/ML engineering and full-stack software for global clients with round-the-clock support from the UK and India.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="GitHub">GH</a>
+          <a href="#" aria-label="Twitter">𝕏</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#">Agentic Systems</a>
+        <a href="#">AI / ML Pipeline</a>
+        <a href="#">Drone Operations</a>
+        <a href="#">Robotics & R&D</a>
+        <a href="#">Web Engineering</a>
+        <a href="#">Dev & Infrastructure</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#team">Our Team</a>
+        <a href="projects.html">Projects</a>
+        <a href="index.html#news">News & Updates</a>
+        <a href="index.html#testimonials">Client Reviews</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>🇬🇧 United Kingdom</p>
+        <p><a href="tel:+44123456789">+44 123456789</a></p>
+        <p>🇮🇳 India (R&D Hub)</p>
+        <p><a href="tel:+91123456789">+91 123456789</a></p>
+        <p><a href="mailto:support@auronexta.uk">support@auronexta.uk</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span>© 2026 AuroNexta. All rights reserved.</span>
+      <span>Registered in England &amp; Wales</span>
+      <span>Designed &amp; Developed by VAMSI</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ MODALS ═══ -->
+<div id="wpModal" class="modal" hidden>
+  <div class="modal-back" data-close></div>
+  <article class="modal-card blog">
+    <button class="modal-x" data-close>✕</button>
+    <header class="blog-head">
+      <span id="wpCls" class="p-badge"></span>
+      <h2 id="wpTitle"></h2>
+      <p id="wpMeta" class="blog-meta"></p>
+    </header>
     <div id="wpBody" class="blog-body"></div>
   </article>
 </div>
-<div id="tmModal" class="modal" hidden><div class="modal-back" data-close></div>
-  <article class="modal-card mini"><button class="modal-x" data-close>✕</button>
-    <header class="mini-head"><img id="tmImg" alt=""><div><h2 id="tmName"></h2><p id="tmDesig"></p></div></header>
+<div id="tmModal" class="modal" hidden>
+  <div class="modal-back" data-close></div>
+  <article class="modal-card mini">
+    <button class="modal-x" data-close>✕</button>
+    <header class="mini-head">
+      <img id="tmImg" alt="">
+      <div><h2 id="tmName"></h2><p id="tmDesig"></p></div>
+    </header>
     <div id="tmBody" class="blog-body"></div>
-    <a id="tmLinkedin" class="btn-more" href="https://www.linkedin.com" target="_blank" rel="noopener">View LinkedIn Profile</a>
+    <a id="tmLinkedin" class="btn btn-sm" href="#" target="_blank" rel="noopener">View LinkedIn Profile →</a>
   </article>
 </div>
 <div id="fab" class="fab" hidden><div class="fab-ring"></div></div>
+
+<!-- ═══ BACK TO TOP ═══ -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
